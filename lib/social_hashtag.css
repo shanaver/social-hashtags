@@ -1,0 +1,21 @@
+#social_hashtags ul {
+	list-style: none 
+}
+#social_hashtags ul li {
+	display: inline-block; 
+}
+#social_hashtags ul li img, #social_hashtags ul li iframe#ytplayer, #social_hashtags ul li details {
+	width: 200px;
+}
+#social_hashtags ul li iframe#ytplayer {
+	height: 150px;
+}
+#social_hashtags ul li details {
+	height: 50px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-size: .75em;
+}
+#social_hashtags ul li a {
+	text-decoration: none;
+}
