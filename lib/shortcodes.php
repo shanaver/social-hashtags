@@ -2,6 +2,8 @@
 
 // this is under construction :)
 
+// After a fair amount of sleuthing, I am convinced that this file does not do anything -- Michael Mandiberg, June, 2014
+
 add_shortcode('social_hashtag_pics', 'display_social_hashtag_pics');
 function display_social_hashtag_pics( $atts ) {
 	global $post;

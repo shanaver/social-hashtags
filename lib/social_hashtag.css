@@ -1,21 +1,24 @@
-#social_hashtags ul {
-	list-style: none 
+
+.the-social-posts {
+
 }
-#social_hashtags ul li {
-	display: inline-block; 
+
+div.a-social-post {
+	float: left;
+	width: 330px;
+	Padding: 15px;
+
 }
-#social_hashtags ul li img, #social_hashtags ul li iframe#ytplayer, #social_hashtags ul li details {
-	width: 200px;
+
+
+div.a-social-post img {
+	width: 300px;
+
 }
-#social_hashtags ul li iframe#ytplayer {
-	height: 150px;
-}
-#social_hashtags ul li details {
-	height: 50px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	font-size: .75em;
-}
-#social_hashtags ul li a {
-	text-decoration: none;
+
+
+.clear {
+
+	 clear:both;
+
 }

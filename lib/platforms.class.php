@@ -17,6 +17,7 @@ class PLATFORM_BASE {
   var $pic_platform;
   var $pic_strs;
   var $pic_tags;
+  var $pic_link;
   
   var $pic_full_title;
   var $pic_clean_title;
@@ -33,18 +34,48 @@ class PLATFORM_BASE {
     unset($this->pic_tags);
     unset($this->pic_loc);
   }
-  
-  function strip_urls($url) {
-    $U = explode(' ',$url);
 
-    $W =array();
-    foreach ($U as $k => $u) {
-      if (stristr($u,'http') || (count(explode('.',$u)) > 1)) {
-        unset($U[$k]);
-        return $this->strip_urls( implode(' ',$U));
-      }
+  function containsTLD($string) {
+    preg_match(
+      "/(AC($|\/)|\.AD($|\/)|\.AE($|\/)|\.AERO($|\/)|\.AF($|\/)|\.AG($|\/)|\.AI($|\/)|\.AL($|\/)|\.AM($|\/)|\.AN($|\/)|\.AO($|\/)|\.AQ($|\/)|\.AR($|\/)|\.ARPA($|\/)|\.AS($|\/)|\.ASIA($|\/)|\.AT($|\/)|\.AU($|\/)|\.AW($|\/)|\.AX($|\/)|\.AZ($|\/)|\.BA($|\/)|\.BB($|\/)|\.BD($|\/)|\.BE($|\/)|\.BF($|\/)|\.BG($|\/)|\.BH($|\/)|\.BI($|\/)|\.BIZ($|\/)|\.BJ($|\/)|\.BM($|\/)|\.BN($|\/)|\.BO($|\/)|\.BR($|\/)|\.BS($|\/)|\.BT($|\/)|\.BV($|\/)|\.BW($|\/)|\.BY($|\/)|\.BZ($|\/)|\.CA($|\/)|\.CAT($|\/)|\.CC($|\/)|\.CD($|\/)|\.CF($|\/)|\.CG($|\/)|\.CH($|\/)|\.CI($|\/)|\.CK($|\/)|\.CL($|\/)|\.CM($|\/)|\.CN($|\/)|\.CO($|\/)|\.COM($|\/)|\.COOP($|\/)|\.CR($|\/)|\.CU($|\/)|\.CV($|\/)|\.CX($|\/)|\.CY($|\/)|\.CZ($|\/)|\.DE($|\/)|\.DJ($|\/)|\.DK($|\/)|\.DM($|\/)|\.DO($|\/)|\.DZ($|\/)|\.EC($|\/)|\.EDU($|\/)|\.EE($|\/)|\.EG($|\/)|\.ER($|\/)|\.ES($|\/)|\.ET($|\/)|\.EU($|\/)|\.FI($|\/)|\.FJ($|\/)|\.FK($|\/)|\.FM($|\/)|\.FO($|\/)|\.FR($|\/)|\.GA($|\/)|\.GB($|\/)|\.GD($|\/)|\.GE($|\/)|\.GF($|\/)|\.GG($|\/)|\.GH($|\/)|\.GI($|\/)|\.GL($|\/)|\.GM($|\/)|\.GN($|\/)|\.GOV($|\/)|\.GP($|\/)|\.GQ($|\/)|\.GR($|\/)|\.GS($|\/)|\.GT($|\/)|\.GU($|\/)|\.GW($|\/)|\.GY($|\/)|\.HK($|\/)|\.HM($|\/)|\.HN($|\/)|\.HR($|\/)|\.HT($|\/)|\.HU($|\/)|\.ID($|\/)|\.IE($|\/)|\.IL($|\/)|\.IM($|\/)|\.IN($|\/)|\.INFO($|\/)|\.INT($|\/)|\.IO($|\/)|\.IQ($|\/)|\.IR($|\/)|\.IS($|\/)|\.IT($|\/)|\.JE($|\/)|\.JM($|\/)|\.JO($|\/)|\.JOBS($|\/)|\.JP($|\/)|\.KE($|\/)|\.KG($|\/)|\.KH($|\/)|\.KI($|\/)|\.KM($|\/)|\.KN($|\/)|\.KP($|\/)|\.KR($|\/)|\.KW($|\/)|\.KY($|\/)|\.KZ($|\/)|\.LA($|\/)|\.LB($|\/)|\.LC($|\/)|\.LI($|\/)|\.LK($|\/)|\.LR($|\/)|\.LS($|\/)|\.LT($|\/)|\.LU($|\/)|\.LV($|\/)|\.LY($|\/)|\.MA($|\/)|\.MC($|\/)|\.MD($|\/)|\.ME($|\/)|\.MG($|\/)|\.MH($|\/)|\.MIL($|\/)|\.MK($|\/)|\.ML($|\/)|\.MM($|\/)|\.MN($|\/)|\.MO($|\/)|\.MOBI($|\/)|\.MP($|\/)|\.MQ($|\/)|\.MR($|\/)|\.MS($|\/)|\.MT($|\/)|\.MU($|\/)|\.MUSEUM($|\/)|\.MV($|\/)|\.MW($|\/)|\.MX($|\/)|\.MY($|\/)|\.MZ($|\/)|\.NA($|\/)|\.NAME($|\/)|\.NC($|\/)|\.NE($|\/)|\.NET($|\/)|\.NF($|\/)|\.NG($|\/)|\.NI($|\/)|\.NL($|\/)|\.NO($|\/)|\.NP($|\/)|\.NR($|\/)|\.NU($|\/)|\.NZ($|\/)|\.OM($|\/)|\.ORG($|\/)|\.PA($|\/)|\.PE($|\/)|\.PF($|\/)|\.PG($|\/)|\.PH($|\/)|\.PK($|\/)|\.PL($|\/)|\.PM($|\/)|\.PN($|\/)|\.PR($|\/)|\.PRO($|\/)|\.PS($|\/)|\.PT($|\/)|\.PW($|\/)|\.PY($|\/)|\.QA($|\/)|\.RE($|\/)|\.RO($|\/)|\.RS($|\/)|\.RU($|\/)|\.RW($|\/)|\.SA($|\/)|\.SB($|\/)|\.SC($|\/)|\.SD($|\/)|\.SE($|\/)|\.SG($|\/)|\.SH($|\/)|\.SI($|\/)|\.SJ($|\/)|\.SK($|\/)|\.SL($|\/)|\.SM($|\/)|\.SN($|\/)|\.SO($|\/)|\.SR($|\/)|\.ST($|\/)|\.SU($|\/)|\.SV($|\/)|\.SY($|\/)|\.SZ($|\/)|\.TC($|\/)|\.TD($|\/)|\.TEL($|\/)|\.TF($|\/)|\.TG($|\/)|\.TH($|\/)|\.TJ($|\/)|\.TK($|\/)|\.TL($|\/)|\.TM($|\/)|\.TN($|\/)|\.TO($|\/)|\.TP($|\/)|\.TR($|\/)|\.TRAVEL($|\/)|\.TT($|\/)|\.TV($|\/)|\.TW($|\/)|\.TZ($|\/)|\.UA($|\/)|\.UG($|\/)|\.UK($|\/)|\.US($|\/)|\.UY($|\/)|\.UZ($|\/)|\.VA($|\/)|\.VC($|\/)|\.VE($|\/)|\.VG($|\/)|\.VI($|\/)|\.VN($|\/)|\.VU($|\/)|\.WF($|\/)|\.WS($|\/)|\.XN--0ZWM56D($|\/)|\.XN--11B5BS3A9AJ6G($|\/)|\.XN--80AKHBYKNJ4F($|\/)|\.XN--9T4B11YI5A($|\/)|\.XN--DEBA0AD($|\/)|\.XN--G6W251D($|\/)|\.XN--HGBK6AJ7F53BBA($|\/)|\.XN--HLCJ6AYA9ESC7A($|\/)|\.XN--JXALPDLP($|\/)|\.XN--KGBECHTV($|\/)|\.XN--ZCKZAH($|\/)|\.YE($|\/)|\.YT($|\/)|\.YU($|\/)|\.ZA($|\/)|\.ZM($|\/)|\.ZW)/i",
+      $string,
+      $M);
+    $has_tld = (count($M) > 0) ? true : false;
+    return $has_tld;
+  }
+
+function cleaner($url) {
+  $U = explode(' ',$url);
+
+  $W =array();
+  foreach ($U as $k => $u) {
+    if (stristr($u,".")) { //only preg_match if there is a dot    
+      if ($this->containsTLD($u) === true) {
+      unset($U[$k]);
+      return $this->cleaner( implode(' ',$U));
+    }      
     }
-    return implode(' ',$U);
+  }
+  return implode(' ',$U);
+}
+
+  function removeEmoji($text) {
+
+    $clean_text = "";
+
+    // Match Emoticons
+    $regexEmoticons = '/[\x{1F600}-\x{1F64F}]/u';
+    $clean_text = preg_replace($regexEmoticons, '', $text);
+
+    // Match Miscellaneous Symbols and Pictographs
+    $regexSymbols = '/[\x{1F300}-\x{1F5FF}]/u';
+    $clean_text = preg_replace($regexSymbols, '', $clean_text);
+
+    // Match Transport And Map Symbols
+    $regexTransport = '/[\x{1F680}-\x{1F6FF}]/u';
+    $clean_text = preg_replace($regexTransport, '', $clean_text);
+
+    return $clean_text;
   }
   
   function get_cron_intervals(){
@@ -65,10 +96,10 @@ class PLATFORM_TWITTER Extends PLATFORM_BASE {
     
     if( is_array($response_object->entities->media) ){
       $this->pic_thumb            = $response_object->entities->media[0]->media_url . ":thumb";
-      $this->pic_full             = $response_object->entities->media[0]->media_url;       
+      $this->pic_full             = $response_object->entities->media[0]->media_url;
     }
     else{
-      $no_pic = $response_object->text;
+      $no_pic = $this->removeEmoji($response_object->text);
     }
     
     if( $plugin_options['only_with_pics'] == 'Yes' && $no_pic ){
@@ -78,32 +109,45 @@ class PLATFORM_TWITTER Extends PLATFORM_BASE {
     // remove hash tags from title and create tags with them
     $pattern = "/\#([a-z1-9^\S])+/";
     preg_match_all($pattern, $response_object->text, $hashtags_in_title);
-    $clean_title = $this->strip_urls(preg_replace($pattern, "", $response_object->text));
+
+    if($plugin_options['exclude_hashtags'] == 'Yes'){
+        $clean_title = $this->cleaner(preg_replace($pattern, "", $response_object->text));
+    } else {
+        $clean_title = $this->cleaner($response_object->text);
+    }
+    if($plugin_options['remove_emoji'] == 'Yes'){
+        $clean_title = $this->removeEmoji($clean_title);
+    }
+    
     
     $this->pic_strs             = str_replace("#", "", $hashtags_in_title[0]);
     $this->pic_mysqldate        = date( 'Y-m-d H:i:s', strtotime($response_object->created_at) );
-    $this->pic_handle           = $response_object->from_user;
-    $this->pic_username         = $response_object->from_user_name;
-    $this->pic_sha              = $response_object->id_str;
-    $this->pic_handle_avatar    = $response_object->profile_image_url;
+    $this->pic_handle           = $response_object->user->screen_name;
+    $this->pic_username         = $response_object->user->name;
+    $this->pic_sha              = $response_object->id;
+    $this->pic_handle_avatar    = $response_object->user->profile_image_url;
     $this->pic_handle_platform  = 'twitter';
     $this->pic_platform         = 'twitter';
+    $this->pic_link             = 'https://twitter.com/' . $response_object->user->screen_name . '/status/' . $response_object->id_str;
+
     if( $response_object->geo != '' ){
       $this->pic_loc              = implode(",", $response_object->geo);
     }
-    if($response_object->hashtags[0]){
+    if($response_object->entities->hashtags[0]){
       $this->pic_tags = array();
       foreach($response_object->entities->hashtags as $tag){
         array_push($this->pic_tags, $tag->text);
       }      
     }
-    $this->pic_full_title         = $response_object->text;
-    $this->pic_clean_title        = $no_pic ? $no_pic : (trim($clean_title) ? $clean_title : $this->pic_handle . ' using ' . $this->pic_handle_platform);
-    
+
+    $this->pic_full_title         = $this->removeEmoji($response_object->text);
+    $this->pic_clean_title        = $no_pic ? $no_pic : ($clean_title ? $clean_title : $this->pic_handle . ' using ' . $this->pic_handle_platform);
+
+
     return true;
   }
   function clean_response($response_object){
-    return $response_object->results;
+    return $response_object->statuses;
   }
   function get_next_page($response_object, $last_page){
     if(stristr($last_page, "page=")){
@@ -173,6 +217,33 @@ class PLATFORM_TWITTER Extends PLATFORM_BASE {
             		<code>Skip text-only tweets</code>
             	</th>
             </tr>
+
+            <tr class="active">
+              <td class="desc">
+                <select name="social_hashtag_cache[<?php print $cache_num ?>][exclude_hashtags]" class="disable_onchange" >
+                  <option value="No" <?php selected( $cache_settings['exclude_hashtags'], 'No' ); ?>>No</option>
+                  <option value="Yes" <?php selected( $cache_settings['exclude_hashtags'], 'Yes' ); ?>>Yes</option>
+                </select> 
+              </td>
+              <th scope="row">
+                <label for="">Exclude Hashtags</label><br/>
+                <code>Will remove hashtagged words from retrieved posts.</code>
+              </th>
+            </tr>
+
+            <tr class="active">
+              <td class="desc">
+                <select name="social_hashtag_cache[<?php print $cache_num ?>][remove_emoji]" class="disable_onchange" >
+                  <option value="No" <?php selected( $cache_settings['remove_emoji'], 'No' ); ?>>No</option>
+                  <option value="Yes" <?php selected( $cache_settings['remove_emoji'], 'Yes' ); ?>>Yes</option>
+                </select> 
+              </td>
+              <th scope="row">
+                <label for="">Remove Emoji</label><br/>
+                <code>Will remove emoji unicode-range characters from retrieved posts.</code>
+              </th>
+            </tr>
+
             <tr class="active">
               <td class="desc">
             	  <select name="social_hashtag_cache[<?php print $cache_num ?>][skip_retweets]" class="disable_onchange" >
@@ -374,10 +445,19 @@ class PLATFORM_TELEPORTD Extends PLATFORM_BASE {
 class PLATFORM_INSTAGRAM Extends PLATFORM_BASE {
   function parse_response($response_object, $plugin_options){
     $this->unset_variables();
+
     // remove hash tags from title and create tags with them
     $pattern = "/\#([a-z1-9^\S])+/";
     preg_match_all($pattern, $response_object->caption->text, $hashtags_in_title);
-    $clean_title = preg_replace($pattern, "", $response_object->caption->text);
+
+    if($plugin_options['exclude_hashtags'] == 'Yes'){
+        $clean_title = $this->cleaner(preg_replace($pattern, "", $response_object->caption->text));
+    } else {
+        $clean_title = $this->cleaner($response_object->caption->text);
+    }
+    if($plugin_options['remove_emoji'] == 'Yes'){
+        $clean_title = $this->removeEmoji($clean_title);
+    }
     
     $this->pic_tags             = $response_object->tags;
     $this->pic_loc              = !empty($response_object->location->latitude)?$response_object->location->latitude . "," . $response_object->location->longitude:'';
@@ -391,8 +471,9 @@ class PLATFORM_INSTAGRAM Extends PLATFORM_BASE {
     $this->pic_handle_platform  = 'instagram';    
     $this->pic_username         = $response_object->user->full_name;
     $this->pic_platform         = 'instagram';
-    $this->pic_full_title       = urlencode($response_object->caption->text);
+    $this->pic_full_title       = urlencode($this->removeEmoji($response_object->caption->text));
     $this->pic_clean_title      = trim($clean_title) != '' ? $clean_title : $this->pic_handle . ' using ' . $this->pic_handle_platform;
+    $this->pic_link             = $response_object->link;
     return true;
   }
   function clean_response($response_object){
@@ -428,6 +509,33 @@ class PLATFORM_INSTAGRAM Extends PLATFORM_BASE {
                 <code>Instagram requires that you <a target="_blank" href="http://instagram.com/developer/clients/manage/">register a 'client' application</a><br/>(it's free & takes about 5 minutes to set up)</code>
             	</th>
             </tr>
+
+            <tr class="active">
+              <td class="desc">
+                <select name="social_hashtag_cache[<?php print $cache_num ?>][exclude_hashtags]" class="disable_onchange" >
+                  <option value="No" <?php selected( $cache_settings['exclude_hashtags'], 'No' ); ?>>No</option>
+                  <option value="Yes" <?php selected( $cache_settings['exclude_hashtags'], 'Yes' ); ?>>Yes</option>
+                </select> 
+              </td>
+              <th scope="row">
+                <label for="">Exclude Hashtags</label><br/>
+                <code>Will remove hashtagged words from retrieved posts.</code>
+              </th>
+            </tr>
+
+            <tr class="active">
+              <td class="desc">
+                <select name="social_hashtag_cache[<?php print $cache_num ?>][remove_emoji]" class="disable_onchange" >
+                  <option value="No" <?php selected( $cache_settings['remove_emoji'], 'No' ); ?>>No</option>
+                  <option value="Yes" <?php selected( $cache_settings['remove_emoji'], 'Yes' ); ?>>Yes</option>
+                </select> 
+              </td>
+              <th scope="row">
+                <label for="">Remove Emoji</label><br/>
+                <code>Will remove emoji unicode-range characters from retrieved posts.</code>
+              </th>
+            </tr>
+
             <tr class="active">
               <td class="desc">
                 <p><input type="text" name="social_hashtag_cache[<?php print $cache_num ?>][search_name]" value="<?php print ($cache_settings['search_name'] ? $cache_settings['search_name'] : $cache_settings['api_selected']) ?>" class="regular-text disable_onchange" /></p>

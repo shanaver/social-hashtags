@@ -26,7 +26,7 @@ function create_social_hashtag_posttype() {
       'not_found_in_trash' => __( 'No social hashtag found in trash' )
     ),
     'public' => true,
-    'supports' => array( 'title', 'thumbnail', 'editor', 'custom-fields'),
+    'supports' => array( 'title', 'author', 'thumbnail', 'editor', 'custom-fields'),
     'capability_type' => 'post',
     'has_archive' => $slug,
     'hierarchical' => false,
