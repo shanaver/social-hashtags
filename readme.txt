@@ -1,5 +1,5 @@
-=== Social Hashtags ===
-Contributors: shanaver
+====== Social Hashtags ======
+Contributors: shanaver, mandiberg
 Tags: instagram, youtube, hashtags, videos, photos, images, API, twitter, teleportd
 Requires at least: 3.0.1
 Tested up to: 3.8
@@ -8,6 +8,10 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Grabs images & videos matching any hashtag from social APIs like instagram & youtube.
+
+== Update Plans ==
+
+We are going to upgrade twitter to oAuth, and clean up the layout.
 
 == Description ==
 

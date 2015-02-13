@@ -45,9 +45,11 @@
   $global_options     = $social_hashtag_cache->get_social_hashtag_options(null, 'global');
   $slug               = !empty($global_options['slug'])?$global_options['slug']:$social_hashtag_cache->cpt_slug;
   $debug_on           = !empty($global_options['debug_on'])?$global_options['debug_on']:'0';
+  $author_id          = !empty($global_options['author_id'])?$global_options['author_id']:1;
   $always_private     = !empty($global_options['always_private'])?$global_options['always_private']:'No';
   $max_items          = !empty($global_options['max_items'])?$global_options['max_items']:'50';
   $blacklisted_users  = !empty($global_options['blacklisted_users'])?$global_options['blacklisted_users']:'';
+  $whitelisted_users  = !empty($global_options['whitelisted_users'])?$global_options['whitelisted_users']:'';
 
 ?>
 
@@ -202,6 +204,7 @@
       		<code>Debugging info will be sent to the log<br/>(requires installing the <a href="http://wordpress.org/plugins/wordpress-logging-service/">WLS plugin</a>)</code>
       	</th>
       </tr>
+
       <tr class="active">
         <td class="desc">
       	  <select name="social_hashtag_global[always_private]" class="disable_onchange" >
@@ -223,6 +226,25 @@
       		<code>Set to 0 for no max - this may take a long time to run since some services only let you grab 50 at a time.</code>
       	</th>
       </tr>
+
+      <tr class="active">
+        <td class="desc">
+          <select name="social_hashtag_global[author_id]" class="disable_onchange" >
+            <?php
+              $blogusers = get_users( 'orderby=ID' );
+              // Array of WP_User objects.
+              foreach ( $blogusers as $user ) {
+                echo '<option value="' . $user->ID . '"' . selected( $author_id, $user->ID) . '>' . $user->display_name . '</option>';
+              }
+            ?>
+          </select>
+        </td>
+        <th scope="row">
+          <label for="">Set Author</label><br/>
+          <code>Will set the WP user to use as author of social-hashtags posts.</code>
+        </th>
+      </tr>
+
       <tr class="active">
         <td class="desc">
           <p><textarea name="social_hashtag_global[blacklisted_users]" cols="80" rows="4"><?php print $blacklisted_users ?></textarea></p>
@@ -232,6 +254,17 @@
       		<code>comma separated</code>
       	</th>
       </tr>
+
+      <tr class="active">
+        <td class="desc">
+          <p><textarea name="social_hashtag_global[whitelisted_users]" cols="80" rows="4"><?php print $whitelisted_users ?></textarea></p>
+        </td>
+        <th scope="row">
+          <label for="">Whitelisted usernames/handles</label><br/>
+          <code>comma separated</code>
+        </th>
+      </tr>
+
     </tbody>
 	</table>
 
